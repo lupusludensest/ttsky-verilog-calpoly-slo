@@ -45,3 +45,21 @@ jobs:
       id-token: write   # to verify the deployment originates from an appropriate source
     steps:
       - uses: TinyTapeout/tt-gds-action/viewer@ttsky25b
+
+  deploy:
+    needs: viewer
+    runs-on: ubuntu-24.04
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+    steps:
+      - name: Upload pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: gh-pages    # Confirm this matches your actual output path
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
